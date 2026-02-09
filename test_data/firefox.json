@@ -1,0 +1,50 @@
+{
+  "nextId": 4,
+  "logins": [
+    {
+      "id": 1,
+      "hostname": "https://example.com",
+      "httpRealm": null,
+      "formSubmitURL": "https://example.com/login",
+      "usernameField": "username",
+      "passwordField": "password",
+      "username": "admin@example.com",
+      "password": "firefox_pass_1",
+      "guid": "{a1b2c3d4-e5f6-7890-abcd-ef1234567890}",
+      "timeCreated": 1706140800000,
+      "timeLastUsed": 1706227200000,
+      "timePasswordChanged": 1706140800000,
+      "timesUsed": 15
+    },
+    {
+      "id": 2,
+      "hostname": "https://mail.google.com",
+      "httpRealm": null,
+      "formSubmitURL": "https://accounts.google.com",
+      "usernameField": "Email",
+      "passwordField": "Passwd",
+      "username": "user@gmail.com",
+      "password": "firefox_gmail_pass",
+      "guid": "{b2c3d4e5-f6a7-8901-bcde-f12345678901}",
+      "timeCreated": 1706140801000,
+      "timeLastUsed": 1706227201000,
+      "timePasswordChanged": 1706140801000,
+      "timesUsed": 42
+    },
+    {
+      "id": 3,
+      "hostname": "https://github.com",
+      "httpRealm": null,
+      "formSubmitURL": "https://github.com/session",
+      "usernameField": "login",
+      "passwordField": "password",
+      "username": "devuser",
+      "password": "firefox_gh_token",
+      "guid": "{c3d4e5f6-a7b8-9012-cdef-123456789012}",
+      "timeCreated": 1706140802000,
+      "timeLastUsed": 1706227202000,
+      "timePasswordChanged": 1706140802000,
+      "timesUsed": 8
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+url,username,password,totp,extra,name,grouping,fav
+https://example.com/login,admin@example.com,supersecret,,admin notes,Example Admin,Work,1
+https://mail.google.com,jsmith@gmail.com,hunter2,,,,Personal,0
+https://github.com,devuser,gh_token_123,JBSWY3DPEHPK3PXP,github api key,GitHub Dev,Development,1
+https://aws.amazon.com,root@corp.net,aws_secret,,IAM root account,AWS Root,Cloud,1

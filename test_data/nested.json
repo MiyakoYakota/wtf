@@ -1,0 +1,29 @@
+{
+  "application": "test_app",
+  "version": "2.1",
+  "database": {
+    "users": {
+      "admin": {
+        "email": "admin@example.com",
+        "password": "supersecret",
+        "ip": "192.168.1.100"
+      },
+      "readonly": {
+        "email": "reader@example.com",
+        "password": "viewonly123",
+        "url": "https://example.com/dashboard"
+      }
+    },
+    "config": {
+      "host": "db.internal",
+      "port": 5432
+    }
+  },
+  "api_keys": [
+    {
+      "username": "service_account",
+      "password": "sk_live_abc123def456",
+      "domain": "api.example.com"
+    }
+  ]
+}

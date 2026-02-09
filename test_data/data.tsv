@@ -1,0 +1,5 @@
+email	username	password	url	ip
+admin@corp.net	admin	password123	https://example.com/login	192.168.1.50
+jsmith@gmail.com	jsmith	hunter2	https://mail.google.com	10.0.0.1
+sarah.connor@skynet.io	sarah	judgement_day	https://skynet.io/auth	203.0.113.42
+root@localhost	root	toor	ftp://192.168.1.1	192.168.1.1

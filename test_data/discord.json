@@ -1,0 +1,45 @@
+{
+  "channel": {
+    "id": "1234567890",
+    "type": 0,
+    "name": "general"
+  },
+  "messages": [
+    {
+      "id": "msg001",
+      "type": 0,
+      "timestamp": "2024-01-25T10:00:00.000+00:00",
+      "content": "server creds are admin:supersecret123",
+      "author": {
+        "id": "user001",
+        "username": "alice_dev",
+        "discriminator": "1234",
+        "email": "alice@example.com"
+      }
+    },
+    {
+      "id": "msg002",
+      "type": 0,
+      "timestamp": "2024-01-25T10:01:00.000+00:00",
+      "content": "check https://dashboard.example.com for the new deploy",
+      "author": {
+        "id": "user002",
+        "username": "bob_ops",
+        "discriminator": "5678",
+        "email": "bob@example.com"
+      }
+    },
+    {
+      "id": "msg003",
+      "type": 0,
+      "timestamp": "2024-01-25T10:02:00.000+00:00",
+      "content": "the api endpoint is at 10.0.0.100:8080",
+      "author": {
+        "id": "user001",
+        "username": "alice_dev",
+        "discriminator": "1234",
+        "email": "alice@example.com"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+[admin]
+email = "admin@example.com"
+username = "admin"
+password = "toml_secret_1"
+url = "https://example.com/login"
+ip = "192.168.1.1"
+
+[webmaster]
+email = "web@example.com"
+username = "webmaster"
+password = "toml_web_pass"
+domain = "example.com"
+
+[developer]
+email = "dev@corp.net"
+username = "developer"
+password = "toml_dev_pass"
+ip = "10.0.0.50"
+name = "Dev User"

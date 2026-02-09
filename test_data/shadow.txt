@@ -1,0 +1,5 @@
+root:$6$xyz$WJ0hEb3RMpVg0PcOsHVYJklBNHiQOqSMBBLpMGdhs.g0R8TJK7MZLf4bPu9zDAqhMHzgRAfBqgHF8.jCfI3vD0:19000:0:99999:7:::
+admin:$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy:19000:0:99999:7:::
+jsmith:$1$salt$hash:18500:0:99999:7:::
+nobody:*:17110:0:99999:7:::
+sarah:!:19000:0:99999:7:::

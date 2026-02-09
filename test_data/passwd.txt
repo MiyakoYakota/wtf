@@ -1,0 +1,6 @@
+root:x:0:0:root:/root:/bin/bash
+admin:x:1000:1000:Admin User:/home/admin:/bin/bash
+jsmith:x:1001:1001:John Smith:/home/jsmith:/bin/zsh
+sarah:x:1002:1002:Sarah Connor:/home/sarah:/bin/bash
+nobody:x:65534:65534:Nobody:/nonexistent:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin

@@ -1,0 +1,5 @@
+folder,favorite,type,name,notes,fields,reprompt,login_uri,login_username,login_password,login_totp
+Work,1,login,Corp Email,primary email,,0,https://mail.corp.net,admin@corp.net,email_secret,
+Personal,,login,Gmail,,,,https://mail.google.com,user@gmail.com,gmail_pass,
+Dev,1,login,GitHub,dev account,,0,https://github.com,devuser,gh_token_abc,JBSWY3DPEHPK3PXP
+,,,SSH Server,jump box,,0,ssh://jumpbox.internal,root,ssh_pass_123,

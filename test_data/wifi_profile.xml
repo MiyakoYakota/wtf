@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
+  <name>CorpWiFi</name>
+  <SSIDConfig>
+    <SSID>
+      <name>CorpWiFi</name>
+    </SSID>
+  </SSIDConfig>
+  <connectionType>ESS</connectionType>
+  <connectionMode>auto</connectionMode>
+  <MSM>
+    <security>
+      <authEncryption>
+        <authentication>WPA2PSK</authentication>
+        <encryption>AES</encryption>
+      </authEncryption>
+      <sharedKey>
+        <keyType>passPhrase</keyType>
+        <protected>false</protected>
+        <keyMaterial>SuperSecretWiFiPass123!</keyMaterial>
+      </sharedKey>
+    </security>
+  </MSM>
+</WLANProfile>

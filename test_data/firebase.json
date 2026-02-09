@@ -1,0 +1,23 @@
+{
+  "users": {
+    "uid_001": {
+      "email": "alice@example.com",
+      "username": "alice",
+      "password": "alice_pass_123",
+      "name": "Alice Smith",
+      "phone": "+15551234567"
+    },
+    "uid_002": {
+      "email": "bob@example.com",
+      "username": "bob_builder",
+      "password": "can_we_fix_it",
+      "name": "Bob Builder"
+    },
+    "uid_003": {
+      "email": "charlie@test.io",
+      "username": "charlie",
+      "password": "delta_echo_foxtrot",
+      "ip": "203.0.113.10"
+    }
+  }
+}

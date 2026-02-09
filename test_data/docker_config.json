@@ -1,0 +1,13 @@
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "auth": "ZG9ja2VydXNlcjpkb2NrZXJwYXNzMTIz"
+    },
+    "registry.corp.net": {
+      "auth": "YWRtaW46cmVnaXN0cnlfc2VjcmV0"
+    },
+    "ghcr.io": {
+      "auth": "ZGV2dXNlcjpnaF90b2tlbl9hYmMxMjM="
+    }
+  }
+}

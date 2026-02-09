@@ -1,0 +1,3 @@
+{"name":"projects/myapp/databases/(default)/documents/users/user1","fields":{"email":{"stringValue":"alice@example.com"},"username":{"stringValue":"alice"},"password":{"stringValue":"alice_pass"},"name":{"stringValue":"Alice Smith"}}}
+{"name":"projects/myapp/databases/(default)/documents/users/user2","fields":{"email":{"stringValue":"bob@example.com"},"username":{"stringValue":"bob"},"password":{"stringValue":"bob_pass"},"ip":{"stringValue":"10.0.0.1"}}}
+{"name":"projects/myapp/databases/(default)/documents/users/user3","fields":{"email":{"stringValue":"charlie@test.io"},"username":{"stringValue":"charlie"},"password":{"stringValue":"charlie_pass"},"url":{"stringValue":"https://test.io/login"}}}
