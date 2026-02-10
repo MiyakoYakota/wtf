@@ -1,6 +1,6 @@
 ## Wicked Transform Framework (WTF)
 
-Inspired by [p137req/ptv](https://github.com/c137req/ptv), this project aims to implement a universal data parser for importing into a database. 
+Inspired by [c137req/ptv](https://github.com/c137req/ptv), this project aims to implement a universal data parser for importing into a database. 
 
 ### Usage
 ```
