@@ -1,6 +1,6 @@
 import os
-import re
-import json
+import traceback
+import orjson
 from uuid import uuid4
 
 import parsers.mappings.mappings
@@ -65,9 +65,9 @@ class BaseParser:
         record_count = 0
         self.detect_fields()
         
-        key_mapping_cache = {}  # Cache key -> mapped_key
+        key_mapping_cache = {}
 
-        with open(self.output_path, 'w') as output_file:
+        with open(self.output_path, 'wb') as output_file:
             for record in self.get_itr():
                 try:
                     std_record = Record()
@@ -90,17 +90,18 @@ class BaseParser:
 
                     if len(record_dict) > 2:
                         if "line" not in record_dict:
-                            record_dict["line"] = json.dumps(record)
+                            record_dict["line"] = orjson.dumps(record).decode('utf-8')
 
                         # Apply postprocessors if any exist
                         for name, postprocessor in postprocessors.items():
                             record_dict = postprocessor(record_dict)
 
-                        output_file.write(json.dumps(record_dict) + "\n")
+                        output_file.write(orjson.dumps(record_dict) + b"\n")
                         record_count += 1
 
                 except Exception as e:
-                    logger.error(f"Error parsing record: {record}\nError: {e}")
+                    logger.error(f"Error parsing record: {record}.\nError: {e}")
+                    traceback.print_exc()
 
         if record_count == 0:
             logger.info(f"No records found in file: {self.file_path}")
