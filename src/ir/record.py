@@ -13,6 +13,7 @@ class Record:
     gender: Optional[str] = None
     ethnicity: Optional[str] = None
     dob: Optional[str] = None
+    party: Optional[str] = None
     
     # Location Information
     address: Optional[str] = None
@@ -34,9 +35,9 @@ class Record:
     VRN: Optional[str] = None
     
     # Contact Information
-    emails: Optional[str] = None
-    phoneNumbers: Optional[str] = None
-    usernames: Optional[str] = None
+    emails: List[str] = field(default_factory=list)
+    phoneNumbers: List[str] = field(default_factory=list)
+    usernames: List[str] = field(default_factory=list)
     
     # Network Information
     ips: List[str] = field(default_factory=list)
@@ -44,6 +45,7 @@ class Record:
     asn: Optional[int] = None
     asnOrg: Optional[str] = None
     accuracy_radius: Optional[int] = None
+    links: List[str] = field(default_factory=list)
     
     # Financial Information
     income: Optional[str] = None
@@ -55,9 +57,29 @@ class Record:
     source: Optional[str] = None
     line: Optional[str] = None
     
-    # Optional Multi-valued Fields
-    links: List[str] = field(default_factory=list)
+    # Additional Fields
     notes: List[str] = field(default_factory=list)
-    party: List[str] = field(default_factory=list)
     photos: List[str] = field(default_factory=list)
     
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
+    
+    def add_or_set_value(self, key: str, value):
+        if hasattr(self, key):
+            current_value = getattr(self, key)
+            if isinstance(current_value, list):
+                if isinstance(value, list):
+                    current_value.extend(value)
+                else:
+                    current_value.append(value)
+            else:
+                if isinstance(current_value, list):
+                    if current_value is None:
+                        setattr(self, key, [value])
+                    else:
+                        current_value.append(value)
+                else:
+                    setattr(self, key, value)
