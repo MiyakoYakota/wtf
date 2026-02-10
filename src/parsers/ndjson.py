@@ -1,5 +1,7 @@
-from .base_parser import BaseParser
 import json
+
+from utils.logs import logger
+from .base_parser import BaseParser
 
 class NDJSONParser(BaseParser):
     _EXTENSIONS = ['.ndjson', '.jsonl']
@@ -7,8 +9,4 @@ class NDJSONParser(BaseParser):
     def get_itr(self):
         with open(self.file_path, 'r') as f:
             for line in f:
-                yield line.strip()
-
-    def parse(self):
-        for line in self.get_itr():
-            print(line)
+                yield json.loads(line.strip())

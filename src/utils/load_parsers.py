@@ -16,7 +16,9 @@ def load_parsers():
                 for attr_name in dir(module):
                     attr = getattr(module, attr_name)
                     if isinstance(attr, type) and issubclass(attr, base_parser.BaseParser) and attr != base_parser.BaseParser:
-                        logger.info(f"Loaded parser class {attr_name} from {filename}")
+                        filename = filename[:-3]
+                        logger.debug(f"Loaded parser class {attr_name} from {filename}")
+
                         parsers[filename] = attr
                         break
                 if parsers[filename] is None:

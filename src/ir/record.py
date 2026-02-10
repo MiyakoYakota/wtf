@@ -13,9 +13,6 @@ class Record:
     gender: Optional[str] = None
     ethnicity: Optional[str] = None
     dob: Optional[str] = None
-    birthYear: Optional[str] = None
-    birthMonth: Optional[str] = None
-    birthday: Optional[str] = None
     
     # Location Information
     address: Optional[str] = None

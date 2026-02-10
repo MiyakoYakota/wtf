@@ -1,0 +1,53 @@
+{
+    "firstName": [
+        "first_name",
+        "first-name",
+        "firstname"
+    ],
+    "middleName": [
+        "middle_name",
+        "middle-name",
+        "middlename"
+    ],
+    "lastName": [
+        "last_name",
+        "last-name",
+        "lastname"
+    ],
+    "gender": [
+        "gender"
+    ],
+    "ethnicity": [
+        "ethnicity",
+        "race"
+    ],
+    "dob": [
+        "date_of_birth",
+        "date-of-birth",
+        "dob",
+        "dateofbirth",
+        "birthdate"
+    ],
+    "address": [
+        "address",
+        "street_address",
+        "street-address",
+        "streetaddress",
+        "addr"
+    ],
+    "email": [
+        "email",
+        "email_address",
+        "email-address",
+        "emails"
+    ],
+    "phoneNumber": [
+        "phone_number",
+        "phone-number",
+        "phone",
+        "phone_numbers",
+        "phones",
+        "phonenumbers",
+        "phonenumber"
+    ]
+}
