@@ -90,6 +90,10 @@ class BaseParser:
 
                     if len(record_dict) > 2:
                         if "line" not in record_dict:
+                            # Remove empty values from the original record to reduce size
+                            for k in list(record.keys()):
+                                if record[k] is None or record[k] == "":
+                                    del record[k]
                             record_dict["line"] = orjson.dumps(record).decode('utf-8')
 
                         # Apply postprocessors if any exist
