@@ -1,4 +1,5 @@
 {
+    "id": ["id"],
     "firstName": [
         "first_name",
         "first-name",
@@ -35,13 +36,82 @@
         "streetaddress",
         "addr"
     ],
-    "email": [
+    "latLon": [
+        "latitude_longitude",
+        "latitude-longitude",
+        "lat_lon",
+        "lat-lon",
+        "latlon"
+    ],
+    "autoMake": [
+        "auto_make",
+        "auto-make",
+        "automake",
+        "car_make",
+        "car-make",
+        "carmake"
+    ],
+    "autoModel": [
+        "auto_model",
+        "auto-model",
+        "automodel",
+        "car_model",
+        "car-model",
+        "carmodel"
+    ],
+    "autoYear": [
+        "auto_year",
+        "auto-year",
+        "autoyear",
+        "car_year",
+        "car-year",
+        "caryear"
+    ],
+    "autoBody": [
+        "auto_body_type",
+        "auto-body-type",
+        "autobodytype",
+        "car_body_type",
+        "car-body-type",
+        "carbodytype",
+        "vehicle_body_type",
+        "vehicle-body-type",
+        "vehiclebodytype",
+        "autobody"
+    ],
+    "autoClass": [
+        "auto_class",
+        "auto-class",
+        "autoclass",
+        "car_class",
+        "car-class",
+        "carclass",
+        "vehicle_class",
+        "vehicle-class",
+        "vehicleclass"
+    ],
+    "vin": [
+        "vin",
+        "vehicle_identification_number",
+        "vehicle-identification-number",
+        "vehicleidentificationnumber"
+    ],
+    "VRN": [
+        "vrn",
+        "vehicle_registration_number",
+        "vehicle-registration-number",
+        "vehicleregistrationnumber",
+        "license_plate",
+        "license-plate",
+        "licenseplate"
+    ],
+    "emails": [
         "email",
         "email_address",
         "email-address",
         "emails"
     ],
-    "phoneNumber": [
+    "phoneNumbers": [
         "phone_number",
         "phone-number",
         "phone",
@@ -49,5 +119,48 @@
         "phones",
         "phonenumbers",
         "phonenumber"
+    ],
+    "usernames": [
+        "username",
+        "user_name",
+        "user-name",
+        "usernames"
+    ],
+    "ips": [
+        "ip",
+        "ip_address",
+        "ip-address",
+        "ips",
+        "ip_addresses",
+        "ip-addresses"
+    ],
+    "domains": [
+        "domain",
+        "domains",
+        "domain_name",
+        "domain-name",
+        "domainname"
+    ],
+    "urls": [
+        "url",
+        "urls",
+        "website",
+        "websites",
+        "link",
+        "links"
+    ],
+    "passwords": [
+        "password",
+        "passwords"
+    ],
+    "source": [
+        "source",
+        "sources"
+    ],
+    "photos": [
+        "photo",
+        "photos",
+        "image",
+        "images"
     ]
 }

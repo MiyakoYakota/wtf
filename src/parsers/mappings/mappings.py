@@ -21,11 +21,11 @@ def get_mapping(key):
     
     return None
 
-def get_value(key: str, value: str):
+def get_value(key: str, value: str, original: dict):
     if key in custom_handlers:
         handler = custom_handlers[key]
         try:
-            return handler(value)
+            return handler(value, original)
         except Exception as e:
             logger.error(f"Error applying custom handler for key: {key} with value: {value}\nError: {e}")
         return []
