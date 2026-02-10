@@ -1,5 +1,7 @@
 import re
 import json
+from uuid import uuid4
+
 import parsers.mappings.mappings
 
 from ir.record import Record
@@ -24,6 +26,7 @@ class BaseParser:
                 return [{key: value}]
             else:
                 logger.warning(f"Invalid UUIDv4 for key: {key} with value: {value}")
+                return 
 
         return parsers.mappings.mappings.get_value(key, value, original)
 
