@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import os
 import logging
 import argparse
@@ -6,7 +6,9 @@ import glob
 
 from utils.fingerprint_unknown import fingerprint_type
 from utils.load_parsers import load_parsers
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 
 
 def main():
@@ -49,27 +51,34 @@ def main():
         try:
             file_extension = os.path.splitext(file)[1].lower()
             parser_class = None
-            for _, cls in parsers.items():
-                if file_extension in cls._EXTENSIONS:
-                    parser_class = cls
-                    logger.info(f"Auto-detected parser: {cls.__name__} for extension {file_extension}")
-                    break
+            if not args.parser:
+                for _, cls in parsers.items():
+                    if file_extension in cls._EXTENSIONS:
+                        parser_class = cls
+                        logger.info(f"Auto-detected parser: {cls.__name__} for extension {file_extension}")
+                        break
 
-            if not parser_class:
-                logger.error(f"No parser found for file extension: {file_extension}")
-                # Attempt to fingerprint the file and find a matching parser
-                fingerprint = fingerprint_type(file)
-                logger.info(f"Fingerprint for file {file}: {fingerprint}")
+                if not parser_class:
+                    logger.error(f"No parser found for file extension: {file_extension}")
+                    # Attempt to fingerprint the file and find a matching parser
+                    fingerprint = fingerprint_type(file)
+                    logger.info(f"Fingerprint for file {file}: {fingerprint}")
 
-                if fingerprint in parsers:
-                    parser_class = parsers[fingerprint]
-                    logger.info(f"Found parser {parser_class.__name__} for fingerprint: {fingerprint}")
-                elif parsers.get("unknown"):
-                    logger.info("Falling back to UnknownParser")
-                    parser_class = parsers["unknown"]
+                    if fingerprint in parsers:
+                        parser_class = parsers[fingerprint]
+                        logger.info(f"Found parser {parser_class.__name__} for fingerprint: {fingerprint}")
+                    elif parsers.get("unknown"):
+                        logger.info("Falling back to UnknownParser")
+                        parser_class = parsers["unknown"]
+                    else:
+                        logger.error("No generic parser found. Skipping file.")
+                        return
+            else:
+                if args.parser in parsers:
+                    parser_class = parsers[args.parser]
                 else:
-                    logger.error("No generic parser found. Skipping file.")
-                    return
+                    logger.warning(f"Invalid parser choice: {args.parser} not in {parsers}")
+                    exit(-1)
 
             parser = parser_class(file, output_path=args.output)
             parser.parse()

@@ -7,9 +7,10 @@ import parsers.mappings.mappings
 from postprocess.postprocessors import postprocessors
 
 from ir.record import Record
-from utils.logs import logger
-from utils.regex import UUID4_REGEX, EMAIL_REGEX, URL_REGEX, SHA1_REGEX, SHA256_REGEX, SHA512_REGEX, BCRYPT_REGEX, IP_REGEX
+from utils.logs import get_logger
 
+logger = get_logger(__name__)
+from utils.regex import UUID4_REGEX, EMAIL_REGEX, URL_REGEX, SHA1_REGEX, SHA256_REGEX, SHA512_REGEX, BCRYPT_REGEX, IPV4_REGEX
 
 class BaseParser:
     _EXTENSIONS = []
@@ -27,14 +28,14 @@ class BaseParser:
     def associate_key(self, key):
         return parsers.mappings.mappings.get_mapping(key, self.detectedFields)
 
-    def parse_value(self, key, value, original):
+    def parse_value(self, key, original_key, value, original):
         if key == "id":
             if isinstance(value, str) and UUID4_REGEX.match(value):
                 return [{key: value}]
             else:
                 return [{"id": str(uuid4())}]
-
-        return parsers.mappings.mappings.get_value(key, value, original)
+            
+        return parsers.mappings.mappings.get_value(key, original_key, value, original)
 
     def detect_fields(self):
         for i, record in enumerate(self.get_itr()):
@@ -54,7 +55,7 @@ class BaseParser:
                     elif SHA1_REGEX.match(value) or SHA256_REGEX.match(value) or SHA512_REGEX.match(value) or BCRYPT_REGEX.match(value):
                         logger.debug(f"Detected potential password field: {key} with value: {value}")
                         self.detectedFields[key] = "passwords"
-                    elif IP_REGEX.match(value):
+                    elif IPV4_REGEX.match(value):
                         logger.debug(f"Detected potential IP field: {key} with value: {value}")
                         self.detectedFields[key] = "ips"
 
@@ -71,20 +72,26 @@ class BaseParser:
             for record in self.get_itr():
                 try:
                     std_record = Record()
+                    priority_fields_count = 0
                     for key, value in record.items():
                         # Use cached mapping or compute it once
                         if key not in key_mapping_cache:
                             key_mapping_cache[key] = self.associate_key(key)
+                        
                         mapped_key = key_mapping_cache[key]
-                        values = self.parse_value(mapped_key, value, record) if mapped_key else None
+                        if mapped_key is not None:
+                            if mapped_key in parsers.mappings.mappings.priorityMappings:
+                                record_count += 1
+                            
+                            values = self.parse_value(mapped_key, key, value, record)
 
-                        if not values:
-                            continue
+                            if not values:
+                                continue
 
-                        for newValue in values:
-                            for k, v in newValue.items():
-                                if v is not None and v != "":
-                                    std_record.add_or_set_value(k, v)
+                            for newValue in values:
+                                for k, v in newValue.items():
+                                    if v is not None and v != "":
+                                        std_record.add_or_set_value(k, v)
 
                     record_dict = std_record.to_dict()
 

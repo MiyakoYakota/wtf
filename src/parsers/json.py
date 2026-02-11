@@ -1,6 +1,8 @@
 import json
 
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 from .base_parser import BaseParser
 
 class JSONParser(BaseParser):

@@ -1,193 +1,138 @@
 {
-    "id": ["id"],
-    "firstName": [
-        "first_name",
-        "first-name",
-        "firstname"
-    ],
-    "middleName": [
-        "middle_name",
-        "middle-name",
-        "middlename"
-    ],
-    "lastName": [
-        "last_name",
-        "last-name",
-        "lastname"
-    ],
-    "gender": [
-        "gender"
-    ],
-    "ethnicity": [
-        "ethnicity",
-        "race"
-    ],
-    "dob": [
-        "date_of_birth",
-        "date-of-birth",
-        "dob",
-        "dateofbirth",
-        "birthdate"
-    ],
-    "address": [
-        "address",
-        "street_address",
-        "street-address",
-        "streetaddress",
-        "addr"
-    ],
-    "country": [
-        "country",
-        "country code"
-    ],
-    "state": [
-        "state"
-    ],
-    "city": [
-        "city"
-    ],
-    "postCode": [
-        "postal_code",
-        "postal-code",
-        "postalcode",
-        "postal code",
-        "zip",
-        "zip_code",
-        "zip-code",
-        "zipcode",
-        "zip code"
-    ],
-    "latLon": [
-        "latitude_longitude",
-        "latitude-longitude",
-        "lat_lon",
-        "lat-lon",
-        "latlon"
-    ],
-    "autoMake": [
-        "auto_make",
-        "auto-make",
-        "automake",
-        "car_make",
-        "car-make",
-        "carmake"
-    ],
-    "autoModel": [
-        "auto_model",
-        "auto-model",
-        "automodel",
-        "car_model",
-        "car-model",
-        "carmodel"
-    ],
-    "autoYear": [
-        "auto_year",
-        "auto-year",
-        "autoyear",
-        "car_year",
-        "car-year",
-        "caryear"
-    ],
-    "autoBody": [
-        "auto_body_type",
-        "auto-body-type",
-        "autobodytype",
-        "car_body_type",
-        "car-body-type",
-        "carbodytype",
-        "vehicle_body_type",
-        "vehicle-body-type",
-        "vehiclebodytype",
-        "autobody"
-    ],
-    "autoClass": [
-        "auto_class",
-        "auto-class",
-        "autoclass",
-        "car_class",
-        "car-class",
-        "carclass",
-        "vehicle_class",
-        "vehicle-class",
-        "vehicleclass"
-    ],
-    "vin": [
-        "vin",
-        "vehicle_identification_number",
-        "vehicle-identification-number",
-        "vehicleidentificationnumber"
-    ],
-    "VRN": [
-        "vrn",
-        "vehicle_registration_number",
-        "vehicle-registration-number",
-        "vehicleregistrationnumber",
-        "license_plate",
-        "license-plate",
-        "licenseplate"
-    ],
-    "emails": [
-        "email",
-        "email_address",
-        "email-address",
-        "emails"
-    ],
-    "phoneNumbers": [
-        "phone_number",
-        "phone-number",
-        "phone",
-        "phone_numbers",
-        "phones",
-        "phonenumbers",
-        "phonenumber"
-    ],
-    "usernames": [
-        "username",
-        "user_name",
-        "user-name",
-        "usernames"
-    ],
-    "ips": [
-        "ip",
-        "ip_address",
-        "ip-address",
-        "ips",
-        "ip_addresses",
-        "ip-addresses"
-    ],
-    "domains": [
-        "domain",
-        "domains",
-        "domain_name",
-        "domain-name",
-        "domainname"
-    ],
-    "urls": [
-        "url",
-        "urls",
-        "website",
-        "websites",
-        "link",
-        "links"
-    ],
-    "passwords": [
-        "password",
-        "passwords"
-    ],
-    "source": [
-        "source",
-        "sources"
-    ],
-    "photos": [
-        "photo",
-        "photos",
-        "image",
-        "images"
-    ],
-    "imei": [
-        "imei"
-    ],
-    "line": [
-        "line"
-    ]
+  "id": {
+    "values": ["id"],
+    "priority": false
+  },
+  "firstName": {
+    "values": ["first_name", "first-name", "firstname"],
+    "priority": true
+  },
+  "middleName": {
+    "values": ["middle_name", "middle-name", "middlename"],
+    "priority": true
+  },
+  "lastName": {
+    "values": ["last_name", "last-name", "lastname"],
+    "priority": true
+  },
+  "gender": {
+    "values": ["gender"],
+    "priority": false
+  },
+  "ethnicity": {
+    "values": ["ethnicity", "race"],
+    "priority": false
+  },
+  "dob": {
+    "values": ["date_of_birth", "date-of-birth", "dob", "dateofbirth", "birthdate"],
+    "priority": false
+  },
+  "address": {
+    "values": ["address", "street_address", "street-address", "streetaddress", "addr"],
+    "priority": true
+  },
+  "country": {
+    "values": ["country", "country code"],
+    "priority": true
+  },
+  "state": {
+    "values": ["state"],
+    "priority": true
+  },
+  "city": {
+    "values": ["city"],
+    "priority": true
+  },
+  "postCode": {
+    "values": ["postal_code", "postal-code", "postalcode", "postal code", "zip", "zip_code", "zip-code", "zipcode", "zip code"],
+    "priority": true
+  },
+  "latLon": {
+    "values": ["latitude_longitude", "latitude-longitude", "lat_lon", "lat-lon", "latlon"],
+    "priority": true
+  },
+  "autoMake": {
+    "values": ["auto_make", "auto-make", "automake", "car_make", "car-make", "carmake"],
+    "priority": true
+  },
+  "autoModel": {
+    "values": ["auto_model", "auto-model", "automodel", "car_model", "car-model", "carmodel"],
+    "priority": true
+  },
+  "autoYear": {
+    "values": ["auto_year", "auto-year", "autoyear", "car_year", "car-year", "caryear"],
+    "priority": true
+  },
+  "autoBody": {
+    "values": ["auto_body_type", "auto-body-type", "autobodytype", "car_body_type", "car-body-type", "carbodytype", "vehicle_body_type", "vehicle-body-type", "vehiclebodytype", "autobody"],
+    "priority": true
+  },
+  "autoClass": {
+    "values": ["auto_class", "auto-class", "autoclass", "car_class", "car-class", "carclass", "vehicle_class", "vehicle-class", "vehicleclass"],
+    "priority": true
+  },
+  "vin": {
+    "values": ["vin", "vehicle_identification_number", "vehicle-identification-number", "vehicleidentificationnumber"],
+    "priority": true
+  },
+  "VRN": {
+    "values": ["vrn", "vehicle_registration_number", "vehicle-registration-number", "vehicleregistrationnumber", "license_plate", "license-plate", "licenseplate"],
+    "priority": true
+  },
+  "emails": {
+    "values": ["email", "email_address", "email-address", "emails"],
+    "priority": true
+  },
+  "phoneNumbers": {
+    "values": ["phone_number", "phone-number", "phone", "phone_numbers", "phones", "phonenumbers", "phonenumber"],
+    "priority": true
+  },
+  "usernames": {
+    "values": ["username", "user_name", "user-name", "usernames"],
+    "priority": true
+  },
+  "ips": {
+    "values": ["ip", "ip_address", "ip-address", "ipaddress", "ips", "ip_addresses", "ip-addresses"],
+    "priority": true
+  },
+  "domains": {
+    "values": ["domain", "domains", "domain_name", "domain-name", "domainname"],
+    "priority": true
+  },
+  "urls": {
+    "values": ["url", "urls", "website", "websites", "link", "links"],
+    "priority": false
+  },
+  "passwords": {
+    "values": ["password", "passwords"],
+    "priority": true
+  },
+  "source": {
+    "values": ["source", "sources"],
+    "priority": false
+  },
+  "photos": {
+    "values": ["photo", "photos", "image", "images"],
+    "priority": false
+  },
+  "imei": {
+    "values": ["imei"],
+    "priority": true
+  },
+  "userAgent": {
+    "values": ["useragent", "user-agent", "agent"],
+    "priority": true
+  },
+  "text": {
+    "values": ["t_subject", "text"],
+    "priority": false
+  },
+  "notes": {
+    "values": ["filename"],
+    "priority": false
+  },
+  "line": {
+    "values": ["line"],
+    "priority": false
+  }
 }

@@ -1,6 +1,8 @@
 import re
 
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 from typing import List
 
 emailRe = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
@@ -33,7 +35,7 @@ publicEmailDomains = [
     "@safe-mail.net",
 ]
 
-def extract(emails, original: dict):
+def extract(emails, original_key: str, original_dict: dict):
     results = []
 
     if isinstance(emails, str):

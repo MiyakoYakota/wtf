@@ -55,6 +55,12 @@ class Record:
     asnOrg: Optional[str] = None
     accuracy_radius: Optional[int] = None
     links: List[str] = field(default_factory=list)
+
+    # Browser Information
+    userAgent: Optional[str] = None
+
+    # User generated content
+    message: Optional[str] = None
     
     # Financial Information
     income: Optional[str] = None
@@ -112,6 +118,8 @@ class Record:
         self.passwords = []
         self.source = None
         self.line = None
+        self.userAgent = None
+        self.message = None
         self.notes = []
         self.photos = []
 

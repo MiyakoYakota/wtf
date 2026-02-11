@@ -1,4 +1,6 @@
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 
 logger.info("Loading Postal address parser, please be patient...")
 from postal.parser import parse_address
@@ -28,7 +30,7 @@ usStates = [
     "virgin islands", "vi",
 ]
 
-def extract(address: str, original: dict):
+def extract(address: str, original_key: str, original_dict: dict):
     fields = [
         'house_number',
         'road',
@@ -42,20 +44,20 @@ def extract(address: str, original: dict):
     
     newAddressString = address
 
-    if 'city' in original and original['city'] not in address:
-        newAddressString += f", {original['city']}"
+    if 'city' in original_dict and original_dict['city'] not in address:
+        newAddressString += f", {original_dict['city']}"
     
-    if 'state' in original and original['state'] not in address:
-        newAddressString += f", {original['state']}"
+    if 'state' in original_dict and original_dict['state'] not in address:
+        newAddressString += f", {original_dict['state']}"
     
-    if 'country' in original and original['country'] not in address:
-        newAddressString += f", {original['country']}"
+    if 'country' in original_dict and original_dict['country'] not in address:
+        newAddressString += f", {original_dict['country']}"
 
-    if 'country' not in original and 'state' in original and original['state'].lower() in usStates:
+    if 'country' not in original_dict and 'state' in original_dict and original_dict['state'].lower() in usStates:
         newAddressString += ", USA"
 
-    if 'zipCode' in original and original['zipCode'] not in address:
-        newAddressString += f", {original['zipCode']}"
+    if 'zipCode' in original_dict and original_dict['zipCode'] not in address:
+        newAddressString += f", {original_dict['zipCode']}"
         
     results = [{
         'address': normalize_string(newAddressString)

@@ -1,3 +1,4 @@
 postal
 chardet
 orjson
+sqlglot[rs]

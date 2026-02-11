@@ -2,7 +2,9 @@ import os
 import json
 import mimetypes
 
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 
 def fingerprint_type(file_path):
         mime = mimetypes.guess_type(file_path)[0]

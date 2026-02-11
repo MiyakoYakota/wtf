@@ -2,12 +2,28 @@ import json
 import os
 import importlib
 
-from utils.logs import logger
+from utils.logs import get_logger
 
-mappings_path = os.path.join(os.path.dirname(__file__), 'mappings.json')
-mappings = json.load(open(mappings_path, 'r'))
+logger = get_logger(__name__)
 
 custom_handlers = {}
+
+mappings = {}
+priority_fields = []
+
+def load_mappings():
+    mappings_path = os.path.join(os.path.dirname(__file__), 'mappings.json')
+    mappings = json.load(open(mappings_path, 'r'))
+    
+    priorityMappings = []
+    for mapping in mappings:
+        isPriority = mappings[mapping]["priority"] if "priority" in mappings[mapping] else False
+        if isPriority:
+            priorityMappings.append(mapping)
+
+    return mappings, priorityMappings
+
+mappings, priorityMappings = load_mappings()
 
 def get_mapping(key, detectedFields={}):
     if key in mappings:
@@ -16,7 +32,7 @@ def get_mapping(key, detectedFields={}):
     lower = key.lower()
     
     for k, v in mappings.items():
-        if lower in v:
+        if lower in v["values"]:
             return k
 
     # Check if any detected fields match this key (i.e email fields detected by Regex)
@@ -24,16 +40,16 @@ def get_mapping(key, detectedFields={}):
         if key in detectedFields:
             detected_type = detectedFields[key]
             for k, v in mappings.items():
-                if detected_type in v:
+                if detected_type in v["values"]:
                     return k
 
     return None
 
-def get_value(key: str, value: str, original: dict):
+def get_value(key: str, original_key: str, value: str, original: dict):
     if key in custom_handlers:
         handler = custom_handlers[key]
         try:
-            return handler(value, original)
+            return handler(value, original_key, original)
         except Exception as e:
             logger.error(f"Error applying custom handler for key: {key} with value: {value}\nError: {e}")
         return []
@@ -50,10 +66,10 @@ def get_all_custom_handlers():
             module_name = f"parsers.mappings.custom_handlers.{filename}"
             try:
                 module = importlib.import_module(module_name)
-                handler_class = None
                 for attr_name in dir(module):
                     attr = getattr(module, attr_name)
                     if callable(attr) and attr_name == 'extract':
+                        logger.debug("Found new custom field handler %s", filename)
                         custom_handlers[filename] = attr
                         break
             except Exception as e:

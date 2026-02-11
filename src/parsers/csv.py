@@ -3,14 +3,18 @@ import codecs
 import chardet
 from pathlib import Path
 
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 from parsers.base_parser import BaseParser
+
+POSSIBLE_DELIMITERS = [",", "\t", " | "]
 
 class CSVParser(BaseParser):
     _EXTENSIONS = ['.csv']
 
-    def detect_encoding_and_bom(self, file_path):
-        with open(file_path, 'rb') as f:
+    def detect_encoding_and_bom(self):
+        with open(self.file_path, 'rb') as f:
             raw_data = f.read(4)
         
         # Check for BOMs in order of likelihood (longest first)
@@ -28,7 +32,7 @@ class CSVParser(BaseParser):
         
         # Try to detect encoding using chardet
         try:
-            with open(file_path, 'rb') as f:
+            with open(self.file_path, 'rb') as f:
                 result = chardet.detect(f.read(1024 * 1024))
             if result and result.get('encoding'):
                 return (result['encoding'], False)
@@ -39,7 +43,7 @@ class CSVParser(BaseParser):
         common_encodings = ['utf-8', 'cp1252', 'iso-8859-1', 'ascii']
         for encoding in common_encodings:
             try:
-                with open(file_path, 'r', encoding=encoding) as f:
+                with open(self.file_path, 'r', encoding=encoding) as f:
                     f.read(1024)
                 return (encoding, False)
             except (UnicodeDecodeError, LookupError):
@@ -47,9 +51,18 @@ class CSVParser(BaseParser):
         
         # Default fallback
         return ('utf-8', False)
+    
+    def detect_delimiter(self, encoding):
+        with open(self.file_path, 'r', encoding=encoding) as f:
+            lines = f.readlines(100)
+
+            for line in lines:
+                print(line)
+            
 
     def get_itr(self):
-        encoding, has_bom = self.detect_encoding_and_bom(self.file_path)
+        encoding, has_bom = self.detect_encoding_and_bom()
+        delimiter = self.detect_delimiter(encoding)
         logger.debug(f"Detected encoding: {encoding} for file: {self.file_path}")
         
         with open(self.file_path, 'r', encoding=encoding) as f:

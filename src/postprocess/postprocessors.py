@@ -2,7 +2,9 @@ import json
 import os
 import importlib
 
-from utils.logs import logger
+from utils.logs import get_logger
+
+logger = get_logger(__name__)
 
 postprocessors = {}
 
