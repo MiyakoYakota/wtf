@@ -1,3 +1,12 @@
+"""
+
+TODO:
+
+- move code to __init__.py
+- ^ do same here what was done in ../postprocess/
+
+"""
+
 import json
 import os
 import importlib

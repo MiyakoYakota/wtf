@@ -1,18 +1,14 @@
-import os
-import traceback
-import orjson
 from uuid import uuid4
-
-import parsers.mappings.mappings
-
 from collections import defaultdict
-from postprocess.postprocessors import postprocessors
-
+from postprocess import postprocessors # __init__.py change
 from ir.record import Record
 from utils.logs import get_logger
+from utils.regex import UUID4_REGEX, EMAIL_REGEX, URL_REGEX, SHA1_REGEX, SHA256_REGEX, SHA512_REGEX, BCRYPT_REGEX, IPV4_REGEX
+
+import os, traceback, orjson, parsers.mappings.mappings
 
 logger = get_logger(__name__)
-from utils.regex import UUID4_REGEX, EMAIL_REGEX, URL_REGEX, SHA1_REGEX, SHA256_REGEX, SHA512_REGEX, BCRYPT_REGEX, IPV4_REGEX
+
 
 class BaseParser:
     _EXTENSIONS = []
@@ -117,7 +113,8 @@ class BaseParser:
 
                         # Apply postprocessors if any exist
                         for name, postprocessor in postprocessors.items():
-                            record_dict = postprocessor(record_dict)
+                            if postprocessor: record_dict = postprocessor(record_dict)
+                            logger.error(f"{postprocessor} missing extract() or module is broken or file is corrupted")
 
                         output_file.write(orjson.dumps(record_dict) + b"\n")
                         record_count += 1

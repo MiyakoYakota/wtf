@@ -68,7 +68,7 @@ def extract(address: str, original_key: str, original_dict: dict):
     # Map libpostal components to our desired output
     for component, label in parsed:
         if label in fields:
-            #convert to camelCase
+            # convert to camelCase
             fieldName = ''.join(word.capitalize() for word in label.split('_'))
             fieldName = fieldName[0].lower() + fieldName[1:]
             results.append({fieldName: component})

@@ -1,5 +1,8 @@
-import re
-import time
+from utils.logs import get_logger
+from utils.regex import DATE_PATTERN_REGEX
+import re, time
+
+logger = get_logger(__name__)
 
 currentYear = time.localtime().tm_year
 currentMonth = time.localtime().tm_mon
@@ -7,8 +10,7 @@ currentMonth = time.localtime().tm_mon
 def extract(record):
     if "line" in record:
         line = record["line"]
-        date_pattern = re.compile(r'(\b\d{4}[-/]\d{2}[-/]\d{2}\b|\b\d{2}[-/]\d{2}[-/]\d{4}\b)')
-        dates = date_pattern.findall(line)
+        dates = DATE_PATTERN_REGEX.findall(line)
 
         mostRecentYear = None
         mostRecentMonth = None

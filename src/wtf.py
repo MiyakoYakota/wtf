@@ -10,7 +10,6 @@ from utils.logs import get_logger
 
 logger = get_logger(__name__)
 
-
 def main():
     logger.info("Starting WTF parser")
     parsers = load_parsers()

@@ -1,10 +1,8 @@
-import os
-import importlib
-
 from utils.logs import get_logger
+from parsers import base_parser
+import os, importlib
 
 logger = get_logger(__name__)
-from parsers import base_parser
 
 def load_parsers():
     parsers_dir = os.path.join(os.path.dirname(__file__), '..', 'parsers')
