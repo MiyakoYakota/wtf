@@ -21,8 +21,6 @@ class LazyProcRegistry:
             if name != 'postprocessors' and not is_pkg: # skip self file
                 self._processors[name] = None
         self._discovered = True
-        # logger.info(f"")
-        # this would be annoyingly verbose so uncomment if you want
 
     def items(self):
         self._discover()
@@ -38,7 +36,7 @@ class LazyProcRegistry:
             try:
                 module_path = f"{self.package_name}.{name}"
                 module = importlib.import_module(module_path)
-                # Look for the 'extract' function you defined earlier
+                # pull extract functions
                 func = getattr(module, 'extract', None)
                 if callable(func):
                     self._processors[name] = func
