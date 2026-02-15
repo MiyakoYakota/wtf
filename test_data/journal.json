@@ -1,4 +1,0 @@
-{"MESSAGE":"Failed password for alice from 192.168.1.100 port 22 ssh2","_HOSTNAME":"webserver01","SYSLOG_IDENTIFIER":"sshd","_PID":"1234","__REALTIME_TIMESTAMP":"1700000000000000"}
-{"MESSAGE":"Accepted password for bob from 10.0.0.50 port 22 ssh2","_HOSTNAME":"webserver01","SYSLOG_IDENTIFIER":"sshd","_PID":"1235","__REALTIME_TIMESTAMP":"1700000001000000"}
-{"MESSAGE":"session opened for user admin by (uid=0)","_HOSTNAME":"dbserver02","SYSLOG_IDENTIFIER":"su","_PID":"5678","__REALTIME_TIMESTAMP":"1700000002000000"}
-{"MESSAGE":"pam_unix(cron:session): session opened for user www-data","_HOSTNAME":"webserver01","_COMM":"cron","_PID":"9012","__REALTIME_TIMESTAMP":"1700000003000000"}

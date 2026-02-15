@@ -1,5 +1,0 @@
-<14>2024-01-25T10:30:00Z webserver01 nginx[1234]: 192.168.1.100 - admin [25/Jan/2024:10:30:00 +0000] "POST /login HTTP/1.1" 200 1234
-<11>2024-01-25T10:30:01Z auth-server sshd[5678]: Failed password for jdoe from 10.0.0.50 port 22 ssh2
-<14>2024-01-25T10:30:02Z mailserver postfix[9012]: connect from unknown[203.0.113.42]
-<10>2024-01-25T10:30:03Z db-primary mysqld[3456]: Access denied for user 'root'@'192.168.1.1' (using password: YES)
-<14>2024-01-25T10:30:04Z app-server gunicorn[7890]: user admin@example.com logged in from 172.16.0.5

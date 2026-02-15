@@ -1,5 +1,0 @@
-username,password,email,ip
-admin,secret123,admin@example.com,192.168.1.1
-jdoe,hunter2,jdoe@example.com,10.0.0.5
-webmaster,p@ssw0rd,web@example.com,172.16.0.10
-backup_svc,backup2024!,backup@internal.net,192.168.1.200

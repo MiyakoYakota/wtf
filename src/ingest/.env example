@@ -1,0 +1,3 @@
+# datastore details are not to be hardcoded - always encrypted with password as value, not whole file, example:
+# data_store=R4ND0MFUCK1NG3NCRYP73DK3YBR0US3Y0UR1M491N4710NWHYD0Y0UN33D4N3X4MPL3L0L
+data_store=

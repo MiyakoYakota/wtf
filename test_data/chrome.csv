@@ -1,5 +1,0 @@
-name,url,username,password,note
-Example Login,https://example.com/login,admin@example.com,chrome_pass_1,
-Gmail,https://accounts.google.com,user@gmail.com,gmail_chrome_pass,personal account
-GitHub,https://github.com/login,devuser,gh_chrome_token,
-Internal Wiki,https://wiki.corp.net,jdoe,wiki_pass_456,corp wiki access

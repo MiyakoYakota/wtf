@@ -1,5 +1,0 @@
-admin:password123:https://example.com/login
-jsmith:hunter2:https://mail.google.com
-sarah.connor@skynet.io:judgement_day:https://skynet.io/auth
-root:toor:ftp://192.168.1.1
-user@example.com:monkey123:https://example.com/dashboard

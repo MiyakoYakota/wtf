@@ -1,5 +1,0 @@
-Title,URL,Username,Password,Notes,OTPAuth
-iCloud,https://www.icloud.com,apple@icloud.com,icloud_pass_1,,
-Gmail,https://accounts.google.com,user@gmail.com,safari_gmail_pass,personal,
-GitHub,https://github.com,devuser,safari_gh_token,,otpauth://totp/GitHub:devuser?secret=JBSWY3DPEHPK3PXP
-Corp VPN,https://vpn.corp.net,jdoe,vpn_safari_pass,cisco vpn,

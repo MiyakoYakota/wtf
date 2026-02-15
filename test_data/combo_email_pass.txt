@@ -1,8 +1,0 @@
-admin@corp.net:password123
-jsmith@gmail.com:hunter2
-sarah.connor@skynet.io:judgement_day
-root@localhost:toor
-user@example.com:monkey123
-test@test.org:qwerty456
-bob@company.co.uk:letmein!
-alice@wonderland.io:trustno1
