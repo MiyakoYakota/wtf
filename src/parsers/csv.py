@@ -1,28 +1,44 @@
 import csv
 import codecs
+from typing import List
 import chardet
+import traceback
 import multiprocessing
-import queue
-import logging
-from typing import Generator, Any, Dict, Optional, Tuple
+import utils.multithreading
 
 from utils.logs import get_logger
 from parsers.base_parser import BaseParser
+from parsers.unknown import extract_with_unknown_parser
 
 logger = get_logger(__name__)
+POSSIBLE_DELIMITERS = [",", "\t", " | ", "|", ":", " "]
+csv.field_size_limit(10 * 1024 * 1024)
 
-# Constants for better maintainability
-POSSIBLE_DELIMITERS = [",", "\t", " | ", "|", ":"]
-QUEUE_BUFFER_SIZE = 1000
-SENTINEL = "STOP"
 
-class SVParser(BaseParser):
+class CSVParser(BaseParser):
     _EXTENSIONS = [".csv", ".tsv", ".psv", ".txt"]
-    workers = []
+    lastLine = ""
+    input_q = None
+    output_q = None
     reader_p = None
+    worker_ps = []
 
-    def detect_encoding_and_bom(self) -> Tuple[str, bool]:
-        """Detects file encoding and presence of BOM."""
+    def detect_encoding_and_bom(self):
+        with open(self.file_path, 'rb') as f:
+            raw_data = f.read(4)
+
+        bom_signatures = [
+            (codecs.BOM_UTF32_BE, 'utf-32'),
+            (codecs.BOM_UTF32_LE, 'utf-32'),
+            (codecs.BOM_UTF16_BE, 'utf-16'),
+            (codecs.BOM_UTF16_LE, 'utf-16'),
+            (codecs.BOM_UTF8, 'utf-8-sig'),
+        ]
+
+        for bom, encoding in bom_signatures:
+            if raw_data.startswith(bom):
+                return (encoding, True)
+
         try:
             with open(self.file_path, 'rb') as f:
                 raw_data = f.read(4)
@@ -42,135 +58,159 @@ class SVParser(BaseParser):
             with open(self.file_path, 'rb') as f:
                 # We only read 1MB to keep memory low
                 result = chardet.detect(f.read(1024 * 1024))
-                
-                # Pylance fix: Check if 'encoding' is not None before returning
-                detected_enc = result.get('encoding')
-                if detected_enc and result.get('confidence', 0) > 0.8:
-                    return str(detected_enc), False
-                    
-        except Exception as e:
-            logger.warning(f"Encoding detection failed: {e}")
-        
-        # Absolute fallback to ensure we never return (None, False)
-        return 'utf-8', False
+            if result and result.get('encoding'):
+                if result['encoding'] == 'ascii':
+                    return ('utf-8', False)
 
-    def detect_delimiter(self, encoding: str) -> Optional[str]:
-        """Sniffs the delimiter by analyzing the first 1000 lines."""
-        delim_counts = {d: 0 for d in POSSIBLE_DELIMITERS}
-        try:
-            with open(self.file_path, 'r', encoding=encoding, errors='replace') as f:
-                for i, line in enumerate(f):
-                    if i > 1000: break
-                    for d in POSSIBLE_DELIMITERS:
-                        if d in line:
-                            delim_counts[d] += 1
-            
-            # Filter and find max
-            valid_delims = {k: v for k, v in delim_counts.items() if v > 0}
-            if not valid_delims:
-                return None
-            return max(valid_delims, key=valid_delims.__getitem__)
-        except Exception as e:
-            logger.error(f"Delimiter detection failed: {e}")
-            return None
+                return (result['encoding'], False)
+        except:
+            pass
+
+        for encoding in ['utf-8', 'cp1252', 'iso-8859-1']:
+            try:
+                with open(self.file_path, 'r', encoding=encoding) as f:
+                    f.read(524288)
+                return (encoding, False)
+            except (UnicodeDecodeError, LookupError):
+                continue
+
+        return ('utf-8', False)
+
+    def detect_delimiter(self, encoding):
+        possibleDelims = dict.fromkeys(POSSIBLE_DELIMITERS, 0)
+        with open(self.file_path, 'r', encoding=encoding) as f:
+            for _ in range(1000):
+                line = f.readline()
+                if not line:
+                    break
+                line = line.rstrip()
+                for delim in POSSIBLE_DELIMITERS:
+                    if delim in line:
+                        possibleDelims[delim] += 1
+
+        maxKey = None
+        maxValue = 0
+        for k, v in possibleDelims.items():
+            if v > maxValue:
+                maxKey = k
+                maxValue = v
+        return maxKey
+    
+    def detect_fieldnames(self, encoding, delimiter):
+        with open(self.file_path, 'r', encoding=encoding) as f:
+            first_line = f.readline().strip()
+            fieldnames = first_line.split(delimiter)
+            fieldnames = [field.strip() for field in fieldnames]
+
+        return fieldnames
+
+
+    @staticmethod
+    def _line_parser_worker(input_q: multiprocessing.Queue, output_q: multiprocessing.Queue, fieldnames: List[str], delimiter: str):
+        logger.info("Starting line parser worker")
+        lastLine = ""
+        def _queue_generator():
+            nonlocal lastLine
+            while True:
+                line = input_q.get()
+                
+                if line == utils.multithreading.LINE_PARSER_SENTINEL:
+                    logger.info("Got sentinel, ending parser thread")
+                    break
+                
+                if line and line.strip():
+                    lastLine = line
+                    yield line
+
+        cleaned_delimiter = delimiter.strip(" ")
+
+        reader = csv.DictReader(_queue_generator(), delimiter=cleaned_delimiter, fieldnames=fieldnames)
+
+        for row in reader:
+            try:
+                if row and all(k is not None for k in row):
+                    output_q.put({k: v.strip() for k, v in row.items() if k is not None and v is not None})
+                else:
+                    logger.warning("Malformed CSV row, using UnknownParser fallback: %s", lastLine.strip())
+                    output_q.put(extract_with_unknown_parser(lastLine))
+            except Exception:
+                logger.warning("CSV parsing error, using UnknownParser fallback: %s %s", lastLine.strip(), traceback.format_exc())
+                output_q.put(extract_with_unknown_parser(lastLine))
+
+        logger.info("Processor thread complete")
+        output_q.put(utils.multithreading.FILE_READER_SENTINEL)
 
     @staticmethod
     def _file_reader_worker(file_path: str, encoding: str, delimiter: str, 
                             input_q: multiprocessing.Queue, num_workers: int):
         try:
-            clean_delim = delimiter.strip()
-            
-            def line_generator():
-                with open(file_path, 'r', encoding=encoding, errors='replace') as f:
-                    for line in f:
-                        # Handle multi-char delimiters for the standard csv module
-                        if len(delimiter) > 1:
-                            yield line.replace(delimiter, clean_delim)
-                        else:
-                            yield line
-            
-            # DictReader is a lazy iterator - it doesn't load the file into memory
-            reader = csv.DictReader(line_generator(), delimiter=clean_delim)
-            for row in reader:
-                if row:
-                    input_q.put(row) # This blocks if queue is full
-                    
+            with open(file_path, 'r', encoding=encoding, errors="ignore") as f:
+                next(f, None) 
+                
+                for line in f:
+                    clean_line = line.strip()
+                    if clean_line:
+                        input_q.put(clean_line)
         except Exception as e:
-            logger.error(f"Reader Worker Exception: {e}")
+            logger.error(f"Reader Process Error: {e}")
         finally:
-            # Send shutdown signal to all processing workers
+            # Tell EVERY worker thread to stop
             for _ in range(num_workers):
-                input_q.put(SENTINEL)
-
-    @staticmethod
-    def _parse_worker(input_q: multiprocessing.Queue, output_q: multiprocessing.Queue):
-        """Processes rows from the input queue."""
-        while True:
-            row = input_q.get()
-            if row == SENTINEL:
-                break
-            try:
-                # Place for data validation or transformation
-                output_q.put(row)
-            except Exception as e:
-                logger.error(f"Parse Worker Exception: {e}")
-        
-        # Signal that this specific worker is done
-        output_q.put(SENTINEL)
+                input_q.put(utils.multithreading.LINE_PARSER_SENTINEL)
 
     def stop_parse(self):
-        """Orchestrate a clean shutdown of multiprocessing components."""
-        logger.debug("Stopping CSV parser workers...")
+        logger.debug("Stopping CSV parser threads...")
         if self.reader_p and self.reader_p.is_alive():
             self.reader_p.terminate()
             self.reader_p.join(0.1)
-        
-        for w in self.workers:
+
+        for w in self.worker_ps:
             if w.is_alive():
                 w.terminate()
                 w.join(0.1)
-        
-        self.workers = []
-        self.reader_p = None
 
-    def get_itr(self) -> Generator[Dict[str, Any], None, None]:
-        """Main orchestrator for the multiprocessing pipeline."""
+    def get_itr(self):
         encoding, _ = self.detect_encoding_and_bom()
         delimiter = self.detect_delimiter(encoding)
-
-        if not encoding:
-            raise ValueError(f"Could not determine encoding for {self.file_path}")
         
+        # Ensure fieldnames we have field names
+        detected_fields = self.detect_fieldnames(encoding, delimiter)
+        fieldnames = self.headers.split(',') if self.headers else detected_fields
+
         if not delimiter:
-            raise ValueError(f"Could not determine delimiter for {self.file_path}")
+            logger.error("Could not detect delimiter.")
+            return
 
-        # Queues are the backbone. maxsize ensures we don't exceed memory limits.
-        input_q = multiprocessing.Queue(maxsize=QUEUE_BUFFER_SIZE)
-        output_q = multiprocessing.Queue(maxsize=QUEUE_BUFFER_SIZE * 2)
-        
-        # 1. Start Parser Workers
-        workers = []
-        for _ in range(self.num_threads):
-            p = multiprocessing.Process(target=self._parse_worker, args=(input_q, output_q))
-            p.daemon = True 
-            p.start()
-            self.workers.append(p) # Store in self
+        self.input_q = multiprocessing.Queue(maxsize=utils.multithreading.QUEUE_BUFFER_SIZE)
+        self.output_q = multiprocessing.Queue(maxsize=utils.multithreading.QUEUE_BUFFER_SIZE)
 
-        # 2. Start Reader Process
         self.reader_p = multiprocessing.Process(
             target=self._file_reader_worker,
-            args=(self.file_path, encoding, delimiter, input_q, self.num_threads)
+            args=(self.file_path, encoding, delimiter, self.input_q, self.num_threads)
         )
         self.reader_p.daemon = True
         self.reader_p.start()
 
+        self.worker_ps = []
+        for _ in range(self.num_threads):
+            p = multiprocessing.Process(
+                target=self._line_parser_worker,
+                args=(self.input_q, self.output_q, fieldnames, delimiter)
+            )
+            p.daemon = True
+            p.start()
+            self.worker_ps.append(p)
+
+        # 3. Yield for base_parser until we are done processing
+        finished_workers = 0
         try:
-            while True:
-                item = output_q.get()
-                if item == SENTINEL:
-                    # Logic for counting finished workers can go here if needed
-                    continue 
-                yield item
-        except GeneratorExit:
-            # This is triggered if the loop in base_parser breaks (dry_run)
+            while finished_workers < self.num_threads:
+                item = self.output_q.get()
+                
+                # We use the sentinel to count how many workers have finished
+                if item == utils.multithreading.FILE_READER_SENTINEL:
+                    finished_workers += 1
+                else:
+                    yield item
+        finally:
             self.stop_parse()

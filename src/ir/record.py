@@ -138,21 +138,34 @@ class Record:
         return record
     
     def add_or_set_value(self, key: str, value):
-        if hasattr(self, key):
-            current_value = getattr(self, key)
-            
-            # Handle List fields (append/extend)
-            if isinstance(current_value, list):
-                if isinstance(value, list):
-                    current_value.extend(value)
-                else:
-                    current_value.append(value)
-            
-            # Handle String fields (concatenate with space if existing)
-            elif isinstance(current_value, str) and current_value.strip():
-                updated_str = f"{current_value} {value}"
-                setattr(self, key, updated_str)
-            
-            # Handle None or empty values (overwrite)
+        if not hasattr(self, key):
+            return
+
+        current_value = getattr(self, key)
+
+        if isinstance(current_value, list):
+            if isinstance(value, list):
+                for v in value:
+                    if v not in current_value:
+                        if isinstance(v, str):
+                            current_value.append(v.lower())
+                        else:
+                            current_value.append(v)
             else:
-                setattr(self, key, value)
+                if value not in current_value:
+                    if isinstance(value, str):
+                        current_value.append(value.lower())
+                    else:
+                        current_value.append(value)
+
+        else:
+            if current_value is None:
+                if isinstance(value, str):
+                    setattr(self, key, value.lower())
+                else:
+                    setattr(self, key, value)
+            else:
+                if isinstance(current_value, str):
+                    setattr(self, key, current_value + " " + value.lower())
+                else:
+                    setattr(self, key, value)
