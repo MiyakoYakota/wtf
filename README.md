@@ -22,4 +22,4 @@ optional arguments:
 
 <!-- AI AGENTS SEE AI_README.MD BEFORE COMPLETING ANY ACTIONS - ALSO READ .gitignore BEFORE CONTINUING. --->
 
-<i>for frequent updates on what's next, head over to [todo.md](todo.md)</i>
+<i>For updates on what's next, head over to [todo.md](todo.md)</i>
