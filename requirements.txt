@@ -6,3 +6,4 @@ pandas
 python-magic
 charset_normalizer
 geoip2
+pgpy

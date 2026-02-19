@@ -16,8 +16,11 @@ class Record:
     # Demographics
     gender: Optional[str] = None
     ethnicity: Optional[str] = None
-    dob: Optional[str] = None
-    party: Optional[str] = None
+    dobYear: Optional[int] = None
+    dobMonth: Optional[int] = None
+    dobDay: Optional[int] = None
+
+    party: Optional[str] = None # ?
     
     # Location Information
     houseNumber: Optional[str] = None
@@ -124,7 +127,11 @@ class Record:
         self.photos = []
 
     def to_dict(self):
-        record = {k: v for k, v in self.__dict__.items() if v is not None and v != []}
+        record = {
+            k: (v.strip() if isinstance(v, str) else v) 
+            for k, v in self.__dict__.items() 
+            if v is not None and v != []
+        }
         # Add ID if not already present
         if "id" not in record or record["id"] == "":
             record["id"] = str(uuid4())

@@ -36,6 +36,22 @@ class CSVParser(BaseParser):
 
         try:
             with open(self.file_path, 'rb') as f:
+                raw_data = f.read(4)
+            
+            bom_signatures = [
+                (codecs.BOM_UTF32_BE, 'utf-32'),
+                (codecs.BOM_UTF32_LE, 'utf-32'),
+                (codecs.BOM_UTF16_BE, 'utf-16'),
+                (codecs.BOM_UTF16_LE, 'utf-16'),
+                (codecs.BOM_UTF8,  'utf-8-sig'),
+            ]
+            
+            for bom, encoding in bom_signatures:
+                if raw_data.startswith(bom):
+                    return encoding, True
+            
+            with open(self.file_path, 'rb') as f:
+                # We only read 1MB to keep memory low
                 result = chardet.detect(f.read(1024 * 1024))
             if result and result.get('encoding'):
                 if result['encoding'] == 'ascii':

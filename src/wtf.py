@@ -26,6 +26,7 @@ def main():
     argparser.add_argument('--headers', default="", type=str, required=False)
     argparser.add_argument('--dry-run', action='store_true', help='Only parse 1000 lines from input files. This is useful for testing your parser on a large dataset before converting.')
     argparser.add_argument('--recency-year', default=None, type=int, required=False)
+    argparser.add_argument('-t', '--threads', type=int, default=4, help='Number of threads for parallel parsing')
 
     args = argparser.parse_args()
 

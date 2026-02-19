@@ -12,7 +12,7 @@
     "priority": true
   },
   "lastName": {
-    "values": ["last_name", "last-name", "lastname", "last", "surname"],
+    "values": ["last_name", "last-name", "lastname", "last", "surname", "surnamesfx"],
     "priority": true
   },
   "_fullName": {
@@ -27,20 +27,43 @@
     "values": ["ethnicity", "race"],
     "priority": false
   },
-  "dob": {
+  "_dob": {
     "values": ["date_of_birth", "date-of-birth", "dob", "dateofbirth", "birthdate", "date of birth", "birthday"],
+    "priority": false
+  },
+  "dobYear": {
+    "values": ["dobyear", "doby"],
+    "priority": true
+  },
+  "dobMonth": {
+    "values": ["dobmonth", "dobm"],
+    "priority": false
+  },
+  "dobDay": {
+    "values": ["dobday", "dobd"],
     "priority": false
   },
   "address": {
     "values": ["address", "street_address", "street-address", "streetaddress", "addr", "street1", "street2"],
     "priority": true
   },
+  "houseNumber": {
+    "values": ["housenumber"],
+    "priority": true
+  },
+  "road": {
+    "values": ["streetpredir","streetname", "streetdirection", "sreetsfx"],
+    "priority": true
+  },
+  "unit": {
+    "values": ["unit", "unitdesgnator", "unitdesignatornumber"]
+  },
   "country": {
     "values": ["country", "country code", "countrycode"],
     "priority": true
   },
   "state": {
-    "values": ["state", "region"],
+    "values": ["state", "st", "region"],
     "priority": true
   },
   "city": {
@@ -48,7 +71,7 @@
     "priority": true
   },
   "postCode": {
-    "values": ["postal_code", "postal-code", "postalcode", "postal code", "zip", "zip_code", "zip-code", "zipcode", "zip code", "postcode"],
+    "values": ["postal_code", "postal-code", "postalcode", "postal code", "zip", "zip4", "zip_code", "zip-code", "zipcode", "zip code", "postcode"],
     "priority": true
   },
   "latLon": {
