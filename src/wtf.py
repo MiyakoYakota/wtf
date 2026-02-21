@@ -24,9 +24,10 @@ def main():
     argparser.add_argument('-s', '--source', help='Name of the data source (stored as "source" field)', required=False)
     argparser.add_argument('-t', '--threads', type=int, default=1, help='Number of threads for parallel parsing')
     argparser.add_argument('-n', '--no-output', action="store_true", help="Do not keep the output file, this is useful for development")
-    argparser.add_argument('--headers', default="", type=str, required=False)
+    argparser.add_argument('--headers', default="", type=str, required=False, help="Specify headers used by the CSV parser")
     argparser.add_argument('--dry-run', action='store_true', help='Only parse 1000 lines from input files. This is useful for testing your parser on a large dataset before converting.')
-    argparser.add_argument('--recency-year', default=None, type=int, required=False)
+    argparser.add_argument('--recency-year', default=None, type=int, required=False, help="Specify how recent the data is, when it cannot be inferred from the data")
+    argparser.add_argument('--country', default=None, type=str, required=False, help="Specify what country the data as from, when it cannot be inferred from the data")
 
     args = argparser.parse_args()
 

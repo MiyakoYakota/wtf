@@ -59,15 +59,15 @@
     "values": ["unit", "unitdesgnator", "unitdesignatornumber"]
   },
   "country": {
-    "values": ["country", "country code", "countrycode"],
+    "values": ["country", "country code", "countrycode", "person_location_country"],
     "priority": true
   },
   "state": {
-    "values": ["state", "st", "region"],
+    "values": ["state", "st", "region", "person_location_state"],
     "priority": true
   },
   "city": {
-    "values": ["city"],
+    "values": ["city", "person_location_city"],
     "priority": true
   },
   "postCode": {
@@ -75,7 +75,7 @@
     "priority": true
   },
   "latLon": {
-    "values": ["latitude_longitude", "latitude-longitude", "lat_lon", "lat-lon", "latlon"],
+    "values": ["latitude_longitude", "latitude-longitude", "lat_lon", "lat-lon", "latlon", "location"],
     "priority": true
   },
   "autoMake": {
@@ -130,6 +130,10 @@
     "values": ["url", "urls", "website", "websites", "link", "links", "website", "person_linkedin_url"],
     "priority": false
   },
+  "asn": {
+    "values": ["asn", "org"],
+    "priority": false
+  },
   "passwords": {
     "values": ["password", "passwords", "md5password"],
     "priority": true
@@ -147,7 +151,7 @@
     "priority": true
   },
   "userAgent": {
-    "values": ["useragent", "user-agent", "agent", "devicetype", "devicemodel"],
+    "values": ["useragent", "user-agent", "agent", "devicetype", "devicemodel", "devicebrand", "device", "devicemodel", "androidversion"],
     "priority": true
   },
   "text": {

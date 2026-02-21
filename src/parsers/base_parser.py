@@ -166,7 +166,7 @@ class BaseParser:
                         else:
                             values = [{"id": str(uuid4())}]
                     else:
-                        values = parsers.mappings.mappings.get_value(mapped_key, key, value, record) if (value is not None and value != "" and value != "-" and value != '""' and value != "NULL") else None
+                        values = parsers.mappings.mappings.get_value(mapped_key, key, value, record) if (value is not None and value != "" and value != "-" and value != '""' and value != "NULL" and value != "null" and value != "unknown") else None
 
                     keys_to_remove.append(key)
 
@@ -211,4 +211,7 @@ class BaseParser:
 
                     if args.recency_year is not None and "recencyYear" not in record_dict:
                         record_dict["recencyYear"] = args.recency_year
+                    if args.country is not None and "country" not in record_dict:
+                        record_dict["country"] = args.country
+                    
                     write_q.put(orjson.dumps(record_dict))

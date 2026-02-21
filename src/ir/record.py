@@ -91,7 +91,6 @@ class Record:
         self.lastName = None
         self.gender = None
         self.ethnicity = None
-        self.dob = None
         self.party = None
         self.address = None
         self.city = None
